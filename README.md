@@ -23,3 +23,16 @@ pip install tennis-katas
 
 `tennis-katas` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 >>>>>>> a82e82e (first commit)
+
+
+## Coding smells:
+
+- Long methods (score) -> extractng methods
+
+- Temporary field (tempScore)
+
+- Duplicated Switch statements (ifs)
+
+## Minor changes
+
+- directly returns instead of assigning to variable first.
