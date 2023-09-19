@@ -1,9 +1,6 @@
 import unittest
 
 from src.tennis_katas.tennis_game1 import TennisGame1
-from src.tennis_katas.tennis_game2 import TennisGame2
-from src.tennis_katas.tennis_game3 import TennisGame3
-from src.tennis_katas.tennis_game4 import TennisGame4
 
 
 test_cases = [
