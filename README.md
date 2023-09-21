@@ -25,14 +25,22 @@ pip install tennis-katas
 >>>>>>> a82e82e (first commit)
 
 
-## Coding smells:
+## Coding smells identified in the original code:
 
-- Long methods (score) -> extractng methods
+- Long methods (score) -> extracted methods
 
-- Temporary field (tempScore)
+- Temporary field (tempScore) 
 
-- Duplicated Switch statements (ifs)
+- Switch statements (IFs) -> Replaced switch statements with polymorphism
 
-## Minor changes
+- Magic numbers (checking the score) -> Replaced this numbers with a class (ScoreSystem) that has a human-readable name(tennis game terms)  explaining the meaning of the number.
 
-- directly returns instead of assigning to variable first.
+## Refactoring:
+
+- Replacing the if-else statements we also follow the Open-Closed principle.
+
+- Breaking the advantage or win to two seperate classes to follow also the Single responsibility principle.
+
+## Minor changes:
+
+- directly "returns" instead of assigning to variable first.

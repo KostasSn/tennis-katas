@@ -1,7 +1,14 @@
 from dataclasses import dataclass
+from enum import IntEnum
 
-# from abc import ABC, abstractmethod
-# from enum import Enum
+
+class ScoreSystem(IntEnum):
+    LOVE = 0
+    FIFTEEN = 1
+    THIRTY = 2
+    FORTY = 3
+    DEUCE = 4
+    ADVANTAGE = 5
 
 
 @dataclass
@@ -23,7 +30,14 @@ class Result:
     def get_result(
         self,
     ) -> str:
-        pass
+        if self.player1.points == self.player2.points:
+            return Draw.get_result(self)
+        elif Result.there_is_advantage(self) and abs(self.player1.points - self.player2.points) == ScoreSystem.FIFTEEN:
+            return Advantage.get_result(self)
+        elif Result.there_is_advantage(self):
+            return Win.get_result(self)
+        else:
+            return OngoingScore.get_result(self)
 
     def result_description(self, score: int = 0):
         return {
@@ -32,6 +46,9 @@ class Result:
             2: "Thirty",
             3: "Forty",
         }[score]
+
+    def there_is_advantage(self):
+        return True if (self.player1.points >= ScoreSystem.DEUCE or self.player2.points >= ScoreSystem.DEUCE) else False
 
 
 class Draw(Result):
@@ -43,45 +60,35 @@ class Draw(Result):
         }.get(self.player1.points, "Deuce")
 
 
-class MiddleScore(Result):
+class OngoingScore(Result):
     def get_result(self):
         return f"{self.result_description(self.player1.points)}-{self.result_description(self.player2.points)}"
 
 
-class AdvOrWin(Result):
+class Advantage(Result):
     def get_result(self):
-        minus_result = self.player1.points - self.player2.points
-        if minus_result == 1:
+        if self.player1.points > self.player2.points:
             return "Advantage player1"
-        elif minus_result == -1:
+        else:
             return "Advantage player2"
-        elif minus_result >= 2:
+
+
+class Win(Result):
+    def get_result(self):
+        if self.player1.points > self.player2.points:
             return "Win for player1"
         else:
             return "Win for player2"
 
 
-# class Advantage(Result):
+# class AdvOrWin(Result):
 #     def get_result(self):
-#         minus_result = self.player1.points - self.player2.points
-#         if minus_result == 1:
+#         score_diff = self.player1.points - self.player2.points
+#         if score_diff == 1:
 #             return "Advantage player1"
-#         elif minus_result == -1:
+#         elif score_diff == -1:
 #             return "Advantage player2"
-
-
-# class Win(Result):
-#     def get_result(self):
-#         minus_result = self.player1.points - self.player2.points
-#         if minus_result >= 2:
+#         elif score_diff >= ScoreSystem.THIRTY:
 #             return "Win for player1"
 #         else:
 #             return "Win for player2"
-
-# class ScoreSystem(Enum):
-#     LOVE = 0
-#     FIFTEEN = 1
-#     THIRTY = 2
-#     FORTY = 3
-#     DEUCE = 4
-#     ADVANTAGE = 5
