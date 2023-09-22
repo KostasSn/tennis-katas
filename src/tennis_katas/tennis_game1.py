@@ -10,7 +10,7 @@ class TennisGame1:
         self.player1 = Player(player1_name, 0)
         self.player2 = Player(player2_name, 0)
 
-    def won_point(self, player_name: str):
+    def won_point(self, player_name: str) -> None:
         if player_name == self.player1.name:
             self.player1.score_point()
         else:

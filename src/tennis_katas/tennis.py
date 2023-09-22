@@ -3,6 +3,10 @@ from enum import IntEnum
 
 
 class ScoreSystem(IntEnum):
+    """It is used to translate the score points to the tennis terms.
+    Also used to get rid of the "magic numbers" inside the code.
+    """
+
     LOVE = 0
     FIFTEEN = 1
     THIRTY = 2
@@ -13,6 +17,9 @@ class ScoreSystem(IntEnum):
 
 @dataclass
 class Player:
+    """Class that represents the player entity. The player has name and points and an action that is related to,
+    the score of the point."""
+
     name: str
     points: int
 
@@ -21,7 +28,7 @@ class Player:
 
 
 class Result:
-    """_summary_"""
+    """The main class of the solution. It is extended by Draw, OngoingResult, Advantage and Win."""
 
     def __init__(self, _player1, _player2) -> None:
         self.player1 = _player1
@@ -30,6 +37,11 @@ class Result:
     def get_result(
         self,
     ) -> str:
+        """The main method of the solution. Here are defined the rules of the game and also the winner is decided.
+
+        Returns:
+            str: description of the final result
+        """
         if self.player1.points == self.player2.points:
             return Draw.get_result(self)
         elif Result.there_is_advantage(self) and abs(self.player1.points - self.player2.points) == ScoreSystem.FIFTEEN:
@@ -39,7 +51,7 @@ class Result:
         else:
             return OngoingScore.get_result(self)
 
-    def result_description(self, score: int = 0):
+    def result_description(self, score: int = 0) -> str:
         return {
             0: "Love",
             1: "Fifteen",
@@ -52,7 +64,7 @@ class Result:
 
 
 class Draw(Result):
-    def get_result(self):
+    def get_result(self) -> str:
         return {
             0: "Love-All",
             1: "Fifteen-All",
@@ -61,12 +73,12 @@ class Draw(Result):
 
 
 class OngoingScore(Result):
-    def get_result(self):
+    def get_result(self) -> str:
         return f"{self.result_description(self.player1.points)}-{self.result_description(self.player2.points)}"
 
 
 class Advantage(Result):
-    def get_result(self):
+    def get_result(self) -> str:
         if self.player1.points > self.player2.points:
             return "Advantage player1"
         else:
@@ -74,21 +86,8 @@ class Advantage(Result):
 
 
 class Win(Result):
-    def get_result(self):
+    def get_result(self) -> str:
         if self.player1.points > self.player2.points:
             return "Win for player1"
         else:
             return "Win for player2"
-
-
-# class AdvOrWin(Result):
-#     def get_result(self):
-#         score_diff = self.player1.points - self.player2.points
-#         if score_diff == 1:
-#             return "Advantage player1"
-#         elif score_diff == -1:
-#             return "Advantage player2"
-#         elif score_diff >= ScoreSystem.THIRTY:
-#             return "Win for player1"
-#         else:
-#             return "Win for player2"
