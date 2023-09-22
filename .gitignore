@@ -1,0 +1,4 @@
+
+.vscode/settings.json
+src/tennis_katas/__pycache__/*
+tests/__pycache__/*
